@@ -1,0 +1,86 @@
+{
+  "manifest_version": 3,
+  "name": "网页中外互译",
+  "version": "2.0.0",
+  "description": "中-英-外互转，双语显示。支持谷歌、微软等20+翻译引擎，为用户提供快速准确的中英文翻译服务。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "*://*.microsofttranslator.com/*",
+    "*://edge.microsoft.com/*",
+    "*://fanyi-api.baidu.com/*",
+    "*://translate.googleapis.com/*",
+    "*://fanyi.sogou.com/*",
+    "*://ifanyi.iciba.com/*",
+    "*://dict.hjenglish.com/*",
+    "*://openapi.youdao.com/*",
+    "*://*.caiyunai.com/*",
+    "*://*.caiyunapp.com/*",
+    "*://transmart.qq.com/*",
+    "*://translate.alibaba.com/*",
+    "*://papago.naver.com/*",
+    "*://m.youdao.com/*",
+    "*://worldlingo.com/*",
+    "*://*.deepl.com/*",
+    "*://www.flitto.com.cn/*",
+    "*://translate.yandex.com/*",
+    "*://*.yandex.net/*",
+    "*://fanyi.pdf365.cn/*",
+    "*://dict.cnki.net/*",
+    "*://itrans.xf-yun.com/*",
+    "*://kuaiyi.wps.cn/*",
+    "*://fanyi.baidu.com/*",
+    "*://fanyi.caiyunapp.com/*",
+    "*://api.interpreter.caiyunai.com/*"
+  ],
+  "background": {
+    "service_worker": "background/service-worker.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "*://*.baidu.com/*",
+        "*://localhost:*/*",
+        "*://127.0.0.1:*/*",
+        "*://*.bilibili.com/*",
+        "*://*.jd.com/*",
+        "*://*.taobao.com/*",
+        "*://*.iqiyi.com/*",
+        "*://*.360.cn/*",
+        "*://*.gov.cn/*",
+        "*://*.12306.cn/*",
+        "*://*.ctrip.com/*",
+        "*://*.hao123.com/*",
+        "*://*.youku.com/*",
+        "*://*.aliyun.com/*",
+        "*://*.shushubuyue.net/*",
+        "*://*.shushubuyue.com/*",
+        "*://onfix.cn/*",
+        "*://yeyu2048.xyz/*"
+      ],
+      "css": ["content/content.css"],
+      "js": [
+        "lib/crypto-js.min.js",
+        "content/ui.js",
+        "content/content.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png"
+    }
+  }
+}
