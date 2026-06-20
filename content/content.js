@@ -1272,7 +1272,7 @@
   }
 
   // ==================== Switch API ====================
-  function switchAPI(openWeb, targetIndex) {
+  function switchAPI(openWeb, targetIndex, silent) {
     try {
       if (typeof targetIndex === 'number' && targetIndex >= 0 && targetIndex < engineList.length) {
         switchIndex = targetIndex;
@@ -1281,7 +1281,7 @@
       }
       const engine = engineList[switchIndex];
       currentAPI = engine.api;
-      Toast.success(engine.toast || `已经切换${engine.name}翻译`);
+      if (!silent) Toast.success(engine.toast || `已经切换${engine.name}翻译`);
       if (openWeb && engine.openUrl) {
         extOpenTab(engine.openUrl);
       }
@@ -1308,7 +1308,7 @@
 
     try {
       const savedIndex = await extGetValue("switchIndex", 0);
-      switchAPI(false, savedIndex);
+      switchAPI(false, savedIndex, true);
     } catch (ex) { switchIndex = 0; }
 
     try {
