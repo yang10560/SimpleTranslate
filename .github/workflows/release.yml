@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: '版本号 (留空则自动从 manifest.json 读取)'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read version from manifest
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.tag }}" ]; then
+            TAG="${{ github.event.inputs.tag }}"
+          else
+            TAG="v$(jq -r .version manifest.json)"
+          fi
+          echo "tag=$TAG" >> $GITHUB_OUTPUT
+          echo "📌 Release tag: $TAG"
+
+      - name: Build crx
+        run: |
+          zip -r SimpleTranslate.crx \
+            manifest.json \
+            background/ \
+            content/ \
+            popup/ \
+            lib/ \
+            icons/ \
+            -x "*.git*" "*.github*"
+
+      - name: Create Release & Upload
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ steps.version.outputs.tag }}" \
+            --title "${{ steps.version.outputs.tag }}" \
+            --generate-notes \
+            SimpleTranslate.crx
