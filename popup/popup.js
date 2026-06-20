@@ -106,5 +106,8 @@ document.getElementById("engineSelect").addEventListener("change", async (e) => 
   sendToTab("switchEngine", { index: idx });
 });
 
+// Show version from manifest
+document.getElementById("versionText").textContent = `v${chrome.runtime.getManifest().version}`;
+
 // Initialize
 init();
